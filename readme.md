@@ -32,7 +32,7 @@ Output_example.png: Ένα παράδειγμα χρήσης του συστήμ
 
 ### Παράδειγμα χρήσης.
 
-Με inputs : greek, none, none, marousi, pagrati
+Με inputs : restaurant, none, none, marousi, monastiraki
 
 ```prolog
 What type of entertainment are you interested in?

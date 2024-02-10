@@ -52,7 +52,7 @@ Where do you want to visit?
 What type of transportation do you prefer?
 (e.g., metro, bus, taxi): metro.
 
-Recommended destinations:
+Recommended restaurants:
 1. Marousi Grill & Bar - Greek - Rating: 4 - Cost: medium - Location: Marousi
 2. Mediterranean Delights - Seafood - Rating: 4 - Cost: medium - Location: Marousi
 3. Marousi Café Express - Cafe - Rating: 3 - Cost: low - Location: Marousi
@@ -61,6 +61,9 @@ Transport options:
 Mode: metro - Distance: 30 km - Time: 15 mins
 Mode: bus - Distance: 45 km - Time: 30 mins
 Mode: taxi - Distance: 35 km - Time: 20 mins
+
+Other options in the same area:
+1. Marousi Grill & Bar - Greek - Rating: 4 - Cost: medium - Location: Marousi
 ```
 
 ## Contributing

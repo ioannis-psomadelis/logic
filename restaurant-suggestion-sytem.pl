@@ -191,5 +191,5 @@ print_destinations([(Name, Category, R, C, Location)|Destinations]) :-
 % Helper predicate to print transport options
 print_transport_options([]).
 print_transport_options([(Mode, Distance, Time)|TransportOptions]) :-
-    write('Mode: '), write(Mode), write(' - Distance: '), write(Distance), write(' km - Time: '), write(Time), write(' mins'), nl,
+    write(' - Distance: '), write(Distance), write(' km - Time: '), write(Time), write(' mins'), nl,
     print_transport_options(TransportOptions).

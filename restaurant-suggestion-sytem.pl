@@ -1,9 +1,10 @@
+%Περιοχές
 location(piraeus, athens).
 location(pagrati, athens).
 location(monastiraki, athens).
 location(marousi, athens).
 
-%Define restaurants in Piraeus
+%Εστιατόρια Πειραιά
 restaurant('Sailing Seafood', seafood, 4, medium, piraeus).
 restaurant('Blue Wave Grill', greek, 4, medium, piraeus).
 restaurant('Mediterranean Bliss', bar, 5, high, piraeus).
@@ -22,7 +23,7 @@ restaurant('Poseidon Bounty', bar, 5, high, piraeus).
 restaurant('Estrella Cafe', cafe, 4, medium, piraeus).
 restaurant('Coffie House', cafe, 3, low, piraeus).
 
-%Define restaurants in Pagrati
+%Εστιατόρια Παγκράτι
 restaurant('Authentic Greek Eats', greek, 4, medium, pagrati).
 restaurant('Pagrati Pita Palace', greek, 3, high, pagrati).
 restaurant('Taste of Greece', greek, 5, high, pagrati).
@@ -41,7 +42,7 @@ restaurant('Greek Gyros', greek, 1, low, pagrati).
 restaurant('Pagrati finest', seafood, 2, medium, pagrati).
 restaurant('Gyros', greek, 3, low, pagrati).
 
-%Define restaurants in Monastiraki
+%Εστιατόρια Μοναστηράκι
 restaurant('Mystic Mediterranean', restaurant, 4, medium, monastiraki).
 restaurant('Monastiraki Grill', greek, 3, low, monastiraki).
 restaurant('Urban Bar', bar, 5, high, monastiraki).
@@ -60,7 +61,7 @@ restaurant('Olive Garden Express', greek, 3, high, monastiraki).
 restaurant('Fast food burger', greek, 1, low, monastiraki).
 restaurant('Greek House', greek, 2, medium, monastiraki).
 
-% Define restaurants in Marousi
+%Εστιατόρια Μαρούσι
 restaurant('Marousi Grill & Bar', greek, 4, medium, marousi).
 restaurant('Mediterranean Delights', seafood, 4, medium, marousi).
 restaurant('Marousi Café Express', cafe, 3, low, marousi).
@@ -79,7 +80,7 @@ restaurant('Plateia View', cafe, 4, medium, marousi).
 restaurant('Grecian Fish & Chips', cafe, 2, low, marousi).
 restaurant('Mediterranean Cuisine', greek, 1, medium, marousi).
 
-% Define distances between locations
+%Αποστάσεις μεταξύ περιοχών
 distance(pagrati, piraeus, 7).
 distance(pagrati, monastiraki, 3).
 distance(pagrati, marousi, 12).
@@ -96,7 +97,7 @@ distance(marousi, pagrati, 12).
 distance(marousi, piraeus, 18).
 distance(marousi, monastiraki, 6).
 
-% Define available transports for locations
+%Αποστάσεις μεταξύ περιοχών με μεταφορικά μέσα
 transport(pagrati, metro, 15).
 transport(pagrati, bus, 30).
 transport(pagrati, taxi, 20).
@@ -113,7 +114,7 @@ transport(marousi, metro, 30).
 transport(marousi, bus, 45).
 transport(marousi, taxi, 35).
 
-% Predicate to prompt the user for their entertainment preferences
+% User Input προτιμήσεων
 ask_entertainment_preferences(Type, Cost, Rating) :-
     write('What type of entertainment are you interested in? '), nl,
     write('(e.g., greek, bar, restaurant, seafood): '), read(Type), nl,
@@ -121,59 +122,60 @@ ask_entertainment_preferences(Type, Cost, Rating) :-
     write('Do you have any rating preferences? '), nl,
     write('(1 to 5 or none): '), read(Rating), nl.
 
-% Predicate to prompt the user for their stay and visit locations
+% User Input περιοχών
 ask_location_preferences(Stay, Visit) :-
     write('Where are you staying? '), nl,
     write('(e.g., pagrati, piraeus, marousi, monastiraki): '), read(Stay), nl,
     write('Where do you want to visit? '), nl,
     write('(e.g., pagrati, piraeus, marousi, monastiraki): '), read(Visit), nl.
 
-% Predicate to prompt the user for their preferred mode of transportation
+% User Input προτίμησης μετακίνησης
 ask_transport_preferences(Transport) :-
     write('What type of transportation do you prefer? '), nl,
     write('(e.g., metro, bus, taxi): '), read(Transport), nl.
 
-% Predicate to recommend destinations and transportation options
+
+% Πρόταση εστιατορίων και μεταφορικών μέσων
 recommendation :-
-    % Prompt the user for their preferences
+    % Δεδομένα
     ask_entertainment_preferences(Type, Cost, Rating),
     ask_location_preferences(Stay, Visit),
     ask_transport_preferences(Transport),
 
-    % Find destinations that match the user's preferences
-    find_destinations(Type, Cost, Rating, Visit, Destinations),
+    % Έυρεση των εστιατορίων
+    find_restaurants(Type, Cost, Rating, Visit, Restaurants),
 
-    % Find transportation options from the stay location to the visit location
+    % Έυρεση των μεθόδων μετακίνησης
     find_transport_options(Stay, Visit, TransportOptions),
 
-    % Print the recommendations
-    (   Destinations = []
-    ->  write('No destinations found matching your preferences.'), nl
-    ;   print_recommendations(Destinations, TransportOptions)
+    % Output
+    (   Restaurants = []
+    ->  write('No Restaurants found matching your preferences.'), nl
+    ;   print_recommendations(Restaurants, TransportOptions)
     ).
 
-% Predicate to find destinations that match the user's preferences
-find_destinations(Type, Cost, Rating, Visit, Destinations) :-
+% Ευρεση εστιατορίων
+find_restaurants(Type, Cost, Rating, Visit, Restaurants) :-
     findall((Name, Category, R, C, Visit),
             (restaurant(Name, Category, R, C, Visit),
              (Type = none ; Category = Type),
              (Cost = none ; C = Cost),
              (Rating = none ; R = Rating)),
-            Destinations).
+            Restaurants).
 
-% Predicate to find transportation options from the stay location to the visit location
+% Ευρεση μεθόδων μετακίνησης
 find_transport_options(Stay, Visit, TransportOptions) :-
     findall((Mode, Distance, Time),
             (distance(Stay, Visit, Distance),
              transport(Stay, Mode, Time)),
             TransportOptions).
 
-% Predicate to print the recommendations
-print_recommendations(Destinations, TransportOptions) :-
-    write('Recommended destinations:'), nl,
-    (   Destinations = []
-    ->  write('No destinations found matching your preferences.'), nl
-    ;   print_destinations(Destinations),
+% Output
+print_recommendations(Restaurants, TransportOptions) :-
+    write('Recommended Restaurants:'), nl,
+    (   Restaurants = []
+    ->  write('No Restaurants found matching your preferences.'), nl
+    ;   print_destinations(Restaurants),
         nl
     ),
     write('Transport options:'), nl,
@@ -182,13 +184,13 @@ print_recommendations(Destinations, TransportOptions) :-
     ;   print_transport_options(TransportOptions)
     ).
 
-% Helper predicate to print destinations
+% Helper για εστιατόρια
 print_destinations([]).
-print_destinations([(Name, Category, R, C, Location)|Destinations]) :-
+print_destinations([(Name, Category, R, C, Location)|Restaurants]) :-
     write(Name), write(' - '), write(Category), write(' - Rating: '), write(R), write(' - Cost: '), write(C), write(' - Location: '), write(Location), nl,
-    print_destinations(Destinations).
+    print_destinations(Restaurants).
 
-% Helper predicate to print transport options
+% Helper για μεθόδους μετακίνησης
 print_transport_options([]).
 print_transport_options([(Mode, Distance, Time)|TransportOptions]) :-
     write(Mode), write(' - Distance: '), write(Distance), write(' km - Time: '), write(Time), write(' mins'), nl,
